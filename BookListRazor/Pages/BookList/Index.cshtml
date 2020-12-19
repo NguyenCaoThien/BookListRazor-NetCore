@@ -1,0 +1,54 @@
+﻿@page
+@model BookListRazor.Pages.BookList.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-10">
+        <h1>Book List</h1>
+    </div>
+    <div class="col-2">
+        <a asp-page="Create" class="btn btn-primary">Add new book</a>
+    </div>
+</div>
+
+<form method="post">
+
+    <table class="table table-bordered">
+        <thead>
+            @if (!Model.Book.Any())
+            {
+                <tr>No book was found</tr>
+                return;
+            }
+            <tr>
+                <th>
+                    <label asp-for="Book.FirstOrDefault().Name"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.FirstOrDefault().Author"></label>
+                </th>
+                <th>
+                    <label>Action</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Book)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Author</td>
+                    <td>
+                        <button asp-page-handler="Delete" asp-route-id="@item.Id" class="btn btn-danger" 
+                                type="submit" onclick="return confirm('Are you sure you want to delete?')">
+                            Delete
+                        </button>
+                        <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success" value="Edit">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
